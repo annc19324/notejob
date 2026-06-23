@@ -9,7 +9,7 @@ export default function SettingsModal({ user, onClose, onUpdate }: { user: any, 
   const handleSave = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.put('http://localhost:5000/api/user/profile', { fullName, username }, {
+      const res = await axios.put((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/profile', { fullName, username }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã cập nhật thông tin!');

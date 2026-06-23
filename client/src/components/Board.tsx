@@ -54,8 +54,8 @@ export default function Board() {
     try {
       const token = localStorage.getItem('token');
       const url = projectId 
-        ? `http://localhost:5000/api/board?projectId=${projectId}`
-        : 'http://localhost:5000/api/board';
+        ? (import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/board?projectId=${projectId}`
+        : (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/board';
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -76,7 +76,7 @@ export default function Board() {
   const handleCreateWorkspace = async (name: string) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:5000/api/board/project', { name }, {
+      const res = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/board/project', { name }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã tạo không gian làm việc!');
@@ -98,7 +98,7 @@ export default function Board() {
         if (!newName || newName === currentName) return;
         try {
           const token = localStorage.getItem('token');
-          await axios.put(`http://localhost:5000/api/board/project/${data.currentProject.id}`, { name: newName }, {
+          await axios.put((import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/board/project/${data.currentProject.id}`, { name: newName }, {
             headers: { Authorization: `Bearer ${token}` }
           });
           toast.success('Đã đổi tên không gian!');
@@ -119,7 +119,7 @@ export default function Board() {
         setConfirmState({ isOpen: false });
         try {
           const token = localStorage.getItem('token');
-          await axios.delete(`http://localhost:5000/api/board/project/${data.currentProject.id}`, {
+          await axios.delete((import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/board/project/${data.currentProject.id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           toast.success('Đã xóa không gian!');
@@ -168,7 +168,7 @@ export default function Board() {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:5000/api/board/task/move', {
+      await axios.put((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/board/task/move', {
         taskId: draggableId,
         sourceListId: source.droppableId,
         destListId: destination.droppableId,
@@ -196,7 +196,7 @@ export default function Board() {
     }
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/board/list', {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/board/list', {
         projectId: data.currentProject.id,
         title: newListTitle
       }, {
@@ -220,7 +220,7 @@ export default function Board() {
         setConfirmState({ isOpen: false });
         try {
           const token = localStorage.getItem('token');
-          await axios.delete(`http://localhost:5000/api/board/list/${listId}`, {
+          await axios.delete((import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/board/list/${listId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           fetchBoardData(data.currentProject.id);
@@ -239,7 +239,7 @@ export default function Board() {
     }
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/board/task', {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/board/task', {
         listId,
         content: newTaskContent
       }, {
@@ -263,7 +263,7 @@ export default function Board() {
         setConfirmState({ isOpen: false });
         try {
           const token = localStorage.getItem('token');
-          await axios.delete(`http://localhost:5000/api/board/task/${taskId}`, {
+          await axios.delete((import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/board/task/${taskId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           fetchBoardData(data.currentProject.id);
@@ -285,7 +285,7 @@ export default function Board() {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:5000/api/user/avatar', formData, {
+      const res = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/avatar', formData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

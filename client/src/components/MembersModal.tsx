@@ -14,7 +14,7 @@ export default function MembersModal({ projectId, onClose }: { projectId: string
   const fetchMembers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:5000/api/board/project/${projectId}/members`, {
+      const res = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/board/project/${projectId}/members`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOwner(res.data.owner);
@@ -28,7 +28,7 @@ export default function MembersModal({ projectId, onClose }: { projectId: string
     if (!window.confirm('Xóa thành viên này khỏi dự án?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/board/project/${projectId}/members/${memberId}`, {
+      await axios.delete((import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/board/project/${projectId}/members/${memberId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã xóa thành viên!');

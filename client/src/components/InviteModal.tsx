@@ -8,7 +8,7 @@ export default function InviteModal({ projectId, onClose }: { projectId: string,
   const handleInvite = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/board/project/invite', { projectId, identifier }, {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/board/project/invite', { projectId, identifier }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã gửi lời mời!');

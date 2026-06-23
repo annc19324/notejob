@@ -16,7 +16,7 @@ export default function SocialDrawer({ onClose }: { onClose: () => void }) {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/social/notifications', {
+      const res = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/social/notifications', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(res.data);
@@ -29,7 +29,7 @@ export default function SocialDrawer({ onClose }: { onClose: () => void }) {
     if (!searchQuery) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:5000/api/social/users/search?q=${searchQuery}`, {
+      const res = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + `/api/social/users/search?q=${searchQuery}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSearchResults(res.data);
@@ -41,7 +41,7 @@ export default function SocialDrawer({ onClose }: { onClose: () => void }) {
   const sendFriendReq = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/social/friends/request', { targetId: id }, {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/social/friends/request', { targetId: id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã gửi yêu cầu kết bạn!');
@@ -53,7 +53,7 @@ export default function SocialDrawer({ onClose }: { onClose: () => void }) {
   const acceptFriend = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/social/friends/accept', { id }, {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/social/friends/accept', { id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã chấp nhận kết bạn!');
@@ -66,7 +66,7 @@ export default function SocialDrawer({ onClose }: { onClose: () => void }) {
   const rejectFriend = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/social/friends/reject', { id }, {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/social/friends/reject', { id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchNotifications();
@@ -76,7 +76,7 @@ export default function SocialDrawer({ onClose }: { onClose: () => void }) {
   const acceptProject = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/social/projects/accept-invite', { id }, {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/social/projects/accept-invite', { id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã vào dự án! Tải lại trang để xem.');
@@ -89,7 +89,7 @@ export default function SocialDrawer({ onClose }: { onClose: () => void }) {
   const rejectProject = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/social/projects/reject-invite', { id }, {
+      await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/social/projects/reject-invite', { id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchNotifications();

@@ -15,7 +15,7 @@ export default function ForgotPassword() {
     setError('');
     
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+      const res = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/auth/forgot-password', { email });
       setMessage(res.data.message || 'If an account exists, a recovery link has been sent.');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to send recovery email');
