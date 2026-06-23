@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { LogOut, Plus, Trash2, UserCircle, Settings, Camera, LayoutGrid, ChevronDown, Check, UserPlus, Pencil, Bell } from 'lucide-react';
+import { LogOut, Plus, Trash2, UserCircle, Settings, Camera, LayoutGrid, ChevronDown, Check, UserPlus, Pencil, Bell, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -10,6 +10,7 @@ import WorkspaceModal from './WorkspaceModal';
 import PromptModal from './PromptModal';
 import ConfirmModal from './ConfirmModal';
 import SocialDrawer from './SocialDrawer';
+import AdminModal from './AdminModal';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
@@ -33,6 +34,7 @@ export default function Board() {
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [showSocialDrawer, setShowSocialDrawer] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
   
   const [confirmState, setConfirmState] = useState<any>({ isOpen: false });
   const [promptState, setPromptState] = useState<any>({ isOpen: false });
@@ -367,11 +369,16 @@ export default function Board() {
                 <button className="dropdown-item" onClick={() => fileInputRef.current?.click()}>
                   <Camera size={16} /> Đổi ảnh đại diện
                 </button>
+                {user?.role === 'ADMIN' && (
+                  <button className="dropdown-item" onClick={() => { setIsProfileOpen(false); setShowAdminModal(true); }}>
+                    <Shield size={16} /> Quản trị viên
+                  </button>
+                )}
                 <button className="dropdown-item" onClick={() => { setIsProfileOpen(false); setShowSettings(true); }}>
                   <Settings size={16} /> Cài đặt
                 </button>
                 <div className="dropdown-divider"></div>
-                <button className="dropdown-item" onClick={handleLogout} style={{ color: 'var(--error)' }}>
+                <button className="dropdown-item" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = '/login'; }}>
                   <LogOut size={16} /> Đăng xuất
                 </button>
               </div>
@@ -554,6 +561,7 @@ export default function Board() {
       {confirmState.isOpen && <ConfirmModal title={confirmState.title} message={confirmState.message} onConfirm={confirmState.onConfirm} onClose={() => setConfirmState({ isOpen: false })} />}
       {promptState.isOpen && <PromptModal title={promptState.title} defaultValue={promptState.defaultValue} onConfirm={promptState.onConfirm} onClose={() => setPromptState({ isOpen: false })} />}
       {showSocialDrawer && <SocialDrawer onClose={() => setShowSocialDrawer(false)} />}
+      {showAdminModal && <AdminModal onClose={() => setShowAdminModal(false)} />}
     </div>
   );
 }

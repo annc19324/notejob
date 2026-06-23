@@ -44,8 +44,8 @@ export const register = async (req: Request, res: Response) => {
       html: `<h1>Welcome ${fullName}!</h1><p>Your account has been created successfully.</p>`,
     });
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
-    res.json({ token, user: { id: user.id, username, email } });
+    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
+    res.json({ token, user: { id: user.id, username: user.username, email: user.email, fullName: user.fullName, avatar: user.avatar, role: user.role } });
   } catch (error) {
     console.error("Register Error:", error);
     res.status(500).json({ error: 'Server error' });
@@ -54,17 +54,24 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { email, password, rememberMe } = req.body;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { email, password, rememberMe } = req.body; // email field can contain either email or username
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: email },
+          { username: email }
+        ]
+      }
+    });
     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
 
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) return res.status(400).json({ error: 'Invalid credentials' });
 
     const expiresIn = rememberMe ? '30d' : '1d';
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn });
+    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn });
 
-    res.json({ token, user: { id: user.id, username: user.username, email } });
+    res.json({ token, user: { id: user.id, username: user.username, email: user.email, fullName: user.fullName, avatar: user.avatar, role: user.role } });
   } catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({ error: 'Server error' });

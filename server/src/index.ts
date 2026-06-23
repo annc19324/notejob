@@ -5,6 +5,7 @@ import authRoutes from './routes/auth';
 import boardRoutes from './routes/board';
 import userRoutes from './routes/user';
 import socialRoutes from './routes/social';
+import adminRoutes from './routes/admin';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/board', boardRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/social', socialRoutes);
+app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 
