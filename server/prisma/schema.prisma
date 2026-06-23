@@ -1,0 +1,117 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  fullName  String
+  email     String   @unique
+  password  String
+  avatar    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  projects        Project[]
+  projectMembers  ProjectMember[]
+  friendshipsSent Friendship[] @relation("FriendshipUser1")
+  friendshipsRecv Friendship[] @relation("FriendshipUser2")
+  messagesSent    Message[]    @relation("MessageSender")
+  messagesRecv    Message[]    @relation("MessageReceiver")
+  comments        Comment[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  lists       List[]
+  members     ProjectMember[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model List {
+  id        String   @id @default(cuid())
+  title     String
+  order     Int
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  content     String
+  description String?
+  order       Int
+  listId      String
+  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  images      TaskImage[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProjectMember {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  role      String   @default("MEMBER") // ADMIN, MEMBER
+  status    String   @default("PENDING") // PENDING, ACCEPTED
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([projectId, userId])
+}
+
+model Friendship {
+  id        String   @id @default(cuid())
+  userId1   String
+  userId2   String
+  status    String   @default("PENDING") // PENDING, ACCEPTED
+  createdAt DateTime @default(now())
+
+  user1     User     @relation("FriendshipUser1", fields: [userId1], references: [id], onDelete: Cascade)
+  user2     User     @relation("FriendshipUser2", fields: [userId2], references: [id], onDelete: Cascade)
+
+  @@unique([userId1, userId2])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+
+  sender     User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User     @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model TaskImage {
+  id        String   @id @default(cuid())
+  url       String
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
