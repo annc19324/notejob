@@ -185,11 +185,7 @@ export default function Board() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
+
 
   const handleAddList = async () => {
     if (!newListTitle.trim()) {
