@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { UserPlus, MessageCircle, Bell, X, Check, Search } from 'lucide-react';
+import { UserPlus, MessageCircle, X, Check, Search } from 'lucide-react';
 
 export default function SocialDrawer({ onClose }: { onClose: () => void }) {
   const [activeTab, setActiveTab] = useState<'FRIENDS' | 'MESSAGES' | 'NOTIFICATIONS'>('NOTIFICATIONS');

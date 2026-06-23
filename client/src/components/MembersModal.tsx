@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Trash2, Shield, User } from 'lucide-react';
+import { Trash2, Shield } from 'lucide-react';
 
 export default function MembersModal({ projectId, onClose }: { projectId: string, onClose: () => void }) {
   const [owner, setOwner] = useState<any>(null);

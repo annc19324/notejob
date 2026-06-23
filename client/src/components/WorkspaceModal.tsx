@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 
 export default function WorkspaceModal({ onCreate, onClose }: { onCreate: (name: string) => void, onClose: () => void }) {
   const [name, setName] = useState('');
