@@ -362,10 +362,23 @@ body {
   transition: width 0.3s ease, background 0.2s;
 }
 
+.add-list-btn svg {
+  flex-shrink: 0;
+}
+
+.add-list-btn span {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
 .add-list-btn:hover {
-  width: 300px;
+  width: 200px;
   background-color: rgba(255, 255, 255, 0.05);
   color: var(--text-main);
+}
+
+.add-list-btn:hover span {
+  opacity: 1;
 }
 
 .task-card-time {
