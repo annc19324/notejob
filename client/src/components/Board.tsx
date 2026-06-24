@@ -310,7 +310,7 @@ export default function Board() {
           
           <div className="dropdown-container" onClick={(e) => e.stopPropagation()}>
             <button className="nav-btn" onClick={() => { setIsWorkspaceOpen(!isWorkspaceOpen); setIsProfileOpen(false); }}>
-              Các không gian làm việc <ChevronDown size={14} />
+              <span className="hide-on-mobile">Các không gian làm việc</span> <LayoutGrid className="mobile-only-icon" size={16} /> <ChevronDown size={14} />
             </button>
             {isWorkspaceOpen && (
               <div className="dropdown-menu dropdown-menu-left">
@@ -331,7 +331,9 @@ export default function Board() {
               </div>
             )}
           </div>
-          <button className="nav-btn create-btn" onClick={() => setShowWorkspaceModal(true)}>Tạo mới</button>
+          <button className="nav-btn create-btn" onClick={() => setShowWorkspaceModal(true)}>
+            <Plus size={16} /> <span className="hide-on-mobile">Tạo mới</span>
+          </button>
         </div>
         
         <div className="nav-right">
@@ -346,7 +348,7 @@ export default function Board() {
               ) : (
                 <UserCircle size={32} />
               )}
-              <span style={{ fontSize: '14px', fontWeight: 500 }}>{user?.username}</span>
+              <span className="hide-on-mobile" style={{ fontSize: '14px', fontWeight: 500 }}>{user?.username}</span>
             </div>
             
             {isProfileOpen && (

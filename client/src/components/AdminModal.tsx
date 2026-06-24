@@ -56,7 +56,7 @@ export default function AdminModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" style={{ width: '600px' }} onClick={e => e.stopPropagation()}>
+      <div className="modal-content" style={{ width: '600px', maxWidth: '100%' }} onClick={e => e.stopPropagation()}>
         <h2>Quản lý người dùng (Admin)</h2>
         
         <div style={{ marginTop: '20px', maxHeight: '60vh', overflowY: 'auto' }}>
