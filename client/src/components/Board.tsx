@@ -440,9 +440,9 @@ export default function Board() {
                                 {...provided.dragHandleProps}
                                 style={{ ...provided.draggableProps.style }}
                               >
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                  <span style={{ flex: 1 }}>{task.content}</span>
-                                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                                  <span style={{ flex: 1, minWidth: 0, wordBreak: 'break-word' }}>{task.content}</span>
+                                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center', flexShrink: 0 }}>
                                     <Copy 
                                       size={14} 
                                       color="var(--text-muted)" 
