@@ -38,14 +38,14 @@ export const register = async (req: Request, res: Response) => {
     });
 
     try {
-      await transporter.sendMail({
+      transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email,
         subject: 'Welcome to NoteJob!',
         html: `<h1>Welcome ${fullName}!</h1><p>Your account has been created successfully.</p>`,
-      });
+      }).catch(err => console.error("Async email error:", err));
     } catch (emailError) {
-      console.error("Failed to send welcome email:", emailError);
+      console.error("Failed to initiate welcome email:", emailError);
     }
 
     const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
