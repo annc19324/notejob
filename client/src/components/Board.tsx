@@ -66,6 +66,8 @@ export default function Board() {
     } catch (err) {
       console.error(err);
       if (axios.isAxiosError(err) && err.response?.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         navigate('/login');
       }
     }

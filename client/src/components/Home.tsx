@@ -30,8 +30,14 @@ export default function Home() {
         headers: { Authorization: `Bearer ${token}` }
       });
       setProjects(res.data.allProjects || []);
-    } catch (err) {
-      toast.error('Lỗi tải danh sách dự án');
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/login');
+      } else {
+        toast.error('Lỗi tải danh sách dự án');
+      }
     }
   };
 
