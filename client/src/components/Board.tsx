@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { LogOut, Plus, Trash2, UserCircle, Settings, Camera, LayoutGrid, ChevronDown, Check, UserPlus, Pencil, Bell, Shield } from 'lucide-react';
+import { LogOut, Plus, Trash2, UserCircle, Settings, Camera, LayoutGrid, ChevronDown, Check, UserPlus, Pencil, Bell, Shield, Copy } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -440,12 +440,24 @@ export default function Board() {
                               >
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                   <span style={{ flex: 1 }}>{task.content}</span>
-                                  <Trash2 
-                                    size={14} 
-                                    color="var(--error)" 
-                                    style={{ cursor: 'pointer', opacity: 0.5, marginLeft: '8px' }} 
-                                    onClick={(e) => { e.stopPropagation(); handleDeleteTask(task.id); }}
-                                  />
+                                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                                    <Copy 
+                                      size={14} 
+                                      color="var(--text-muted)" 
+                                      style={{ cursor: 'pointer', opacity: 0.7 }} 
+                                      onClick={(e) => { 
+                                        e.stopPropagation(); 
+                                        navigator.clipboard.writeText(task.content);
+                                        toast.success('Đã sao chép!');
+                                      }}
+                                    />
+                                    <Trash2 
+                                      size={14} 
+                                      color="var(--error)" 
+                                      style={{ cursor: 'pointer', opacity: 0.5 }} 
+                                      onClick={(e) => { e.stopPropagation(); handleDeleteTask(task.id); }}
+                                    />
+                                  </div>
                                 </div>
                                 {task.createdAt && (
                                   <span className="task-card-time">

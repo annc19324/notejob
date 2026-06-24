@@ -7,12 +7,14 @@ import Board from './components/Board';
 import { Toaster } from 'react-hot-toast';
 
 import Home from './components/Home';
+import GlobalLoader from './components/GlobalLoader';
 
 function App() {
   return (
     <Router>
-      <Toaster position="top-right" />
-      <Routes>
+      <GlobalLoader>
+        <Toaster position="top-right" />
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -21,6 +23,7 @@ function App() {
         <Route path="/board" element={<Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      </GlobalLoader>
     </Router>
   );
 }

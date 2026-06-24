@@ -37,7 +37,7 @@ export default function InviteModal({ projectId, onClose }: { projectId: string,
         </div>
         <div style={{ marginTop: '16px', fontSize: '12px', color: 'var(--text-muted)' }}>
           Hoặc sao chép link mời: <br/>
-          <input className="form-input" value={`http://localhost:5173/invite/${projectId}`} readOnly onFocus={e => e.target.select()} />
+          <input className="form-input" value={`${window.location.origin}/invite/${projectId}`} readOnly onFocus={e => e.target.select()} />
         </div>
       </div>
     </div>
