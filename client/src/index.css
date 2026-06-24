@@ -227,15 +227,19 @@ body {
 
 .board-canvas {
   flex: 1;
+  position: relative;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 24px;
 }
 
 .lists-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
+  padding: 24px;
   gap: 20px;
-  height: 100%;
   align-items: flex-start;
 }
 

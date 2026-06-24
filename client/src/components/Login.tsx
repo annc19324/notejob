@@ -17,7 +17,7 @@ export default function Login() {
       });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      navigate('/board');
+      navigate('/');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Login failed');
     }

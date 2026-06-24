@@ -20,7 +20,7 @@ export default function Register() {
       });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      navigate('/board');
+      navigate('/');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Registration failed');
     } finally {

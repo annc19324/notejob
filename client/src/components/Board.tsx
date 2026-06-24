@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { LogOut, Plus, Trash2, UserCircle, Settings, Camera, LayoutGrid, ChevronDown, Check, UserPlus, Pencil, Bell, Shield } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import SettingsModal from './SettingsModal';
@@ -16,6 +16,7 @@ import { vi } from 'date-fns/locale';
 
 export default function Board() {
   const navigate = useNavigate();
+  const { id: routeProjectId } = useParams();
   const [data, setData] = useState<any>({ currentProject: null, allProjects: [] });
   const [user, setUser] = useState<any>(null);
   
@@ -48,9 +49,9 @@ export default function Board() {
     } else {
       const storedUser = localStorage.getItem('user');
       if (storedUser) setUser(JSON.parse(storedUser));
-      fetchBoardData();
+      fetchBoardData(routeProjectId);
     }
-  }, [navigate]);
+  }, [navigate, routeProjectId]);
 
   const fetchBoardData = async (projectId?: string) => {
     try {
@@ -70,10 +71,7 @@ export default function Board() {
     }
   };
 
-  const switchWorkspace = (projectId: string) => {
-    fetchBoardData(projectId);
-    setIsWorkspaceOpen(false);
-  };
+
 
   const handleCreateWorkspace = async (name: string) => {
     try {
@@ -82,8 +80,8 @@ export default function Board() {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Đã tạo không gian làm việc!');
-      fetchBoardData(res.data.id);
       setShowWorkspaceModal(false);
+      navigate(`/board/${res.data.id}`);
     } catch (err) {
       toast.error('Lỗi tạo không gian làm việc');
     }
@@ -125,7 +123,7 @@ export default function Board() {
             headers: { Authorization: `Bearer ${token}` }
           });
           toast.success('Đã xóa không gian!');
-          fetchBoardData();
+          navigate('/');
         } catch (err) {
           toast.error('Lỗi xóa không gian!');
         }
@@ -318,7 +316,7 @@ export default function Board() {
                   KHÔNG GIAN CỦA BẠN
                 </div>
                 {data.allProjects?.map((proj: any) => (
-                  <button key={proj.id} className="dropdown-item" onClick={() => switchWorkspace(proj.id)}>
+                  <button key={proj.id} className="dropdown-item" onClick={() => { setIsWorkspaceOpen(false); navigate(`/board/${proj.id}`); }}>
                     <LayoutGrid size={16} />
                     <span style={{ flex: 1 }}>{proj.name}</span>
                     {proj.id === data.currentProject?.id && <Check size={16} />}
