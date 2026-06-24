@@ -163,6 +163,7 @@ body {
   flex-direction: column;
   height: 100vh;
   background-color: var(--bg-dark);
+  overflow: hidden;
 }
 
 .board-nav {
@@ -172,6 +173,7 @@ body {
   padding: 12px 24px;
   background-color: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
 }
 
 .nav-left, .nav-right {
@@ -227,20 +229,18 @@ body {
 
 .board-canvas {
   flex: 1;
-  position: relative;
   overflow-x: auto;
   overflow-y: hidden;
+  display: flex;
+  height: 100%;
 }
 
 .lists-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
   display: flex;
   padding: 24px;
   gap: 20px;
   align-items: flex-start;
+  height: 100%;
 }
 
 .list-wrapper {
@@ -259,6 +259,7 @@ body {
   max-height: 100%;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .list-header {
