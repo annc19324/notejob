@@ -33,13 +33,14 @@ export default function Login() {
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleLogin} className="form-group">
           <div className="form-group">
-            <label className="form-label">Email Address</label>
+            <label className="form-label">Email hoặc Tên người dùng</label>
             <input 
-              type="email" 
+              type="text" 
               className="form-input" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
+              minLength={3}
             />
           </div>
           <div className="form-group">
@@ -50,6 +51,7 @@ export default function Login() {
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
+              minLength={6}
             />
           </div>
           <div className="checkbox-group">

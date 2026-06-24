@@ -12,7 +12,6 @@ const GlobalLoader: React.FC<GlobalLoaderProps> = ({ children }) => {
   useEffect(() => {
     let progressInterval: number;
     let pingInterval: number;
-    let isConnected = false;
 
     const startLoading = () => {
       // Simulate progress going up to 95% while waiting for backend
@@ -31,7 +30,6 @@ const GlobalLoader: React.FC<GlobalLoaderProps> = ({ children }) => {
           const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
           const res = await axios.get(`${API_URL}/api/health`, { timeout: 5000 });
           if (res.status === 200) {
-            isConnected = true;
             clearInterval(pingInterval);
             clearInterval(progressInterval);
             

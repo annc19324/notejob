@@ -45,6 +45,10 @@ export default function Register() {
               value={username} 
               onChange={(e) => setUsername(e.target.value)} 
               required 
+              minLength={3}
+              maxLength={30}
+              pattern="^[a-zA-Z0-9_]+$"
+              title="Tên người dùng chỉ được chứa chữ cái, số và dấu gạch dưới (_), không có khoảng trắng"
             />
           </div>
           <div className="form-group">
@@ -55,6 +59,8 @@ export default function Register() {
               value={fullName} 
               onChange={(e) => setFullName(e.target.value)} 
               required 
+              minLength={2}
+              maxLength={50}
             />
           </div>
           <div className="form-group">
@@ -75,6 +81,7 @@ export default function Register() {
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
+              minLength={6}
             />
           </div>
           <button type="submit" className="form-button" disabled={loading}>
